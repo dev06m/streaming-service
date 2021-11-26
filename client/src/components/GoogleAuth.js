@@ -1,5 +1,6 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 import { useState } from 'react';
+import { useRef } from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 
@@ -38,7 +39,6 @@ class GoogleAuth extends React.Component {
     }
 
     renderAutoButton() {
-        console.log(this.props.isSignedIn)
         if (this.props.isSignedIn === null) {
         // if (this.state.isSignedIn === null) {
             return null;
@@ -74,7 +74,8 @@ class GoogleAuth extends React.Component {
 
 const GoogleAuthFunc = (props) => {
     
-    const [auth, setAuth] = useState(null); // burada useEffect kullanilabilir
+    // const [auth, setAuth] = useState(null); // burada useREf kullanilabilir
+    let auth = useRef('');
     const { signIn, signOut } = props;
 
     
@@ -96,8 +97,10 @@ const GoogleAuthFunc = (props) => {
                 clientId: '1018683604898-e3909j88llkc3ml68llvvtfk6ul7u4o6.apps.googleusercontent.com',
                 scope: 'email'
             }).then(() => {
-                const auth = window.gapi.auth2.getAuthInstance();
-                setAuth(auth);
+                auth = window.gapi.auth2.getAuthInstance();
+                
+                // setAuth(auth);
+                // auth.current = Oauth;
                 onAuthChange(auth.isSignedIn.get()); 
                 auth.isSignedIn.listen(onAuthChange);
             })
