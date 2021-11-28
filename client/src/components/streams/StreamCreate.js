@@ -2,6 +2,8 @@ import React from 'react';
 import { Field, reduxForm }  from 'redux-form';
 import {connect} from 'react-redux';
 import { createStream } from '../../redux/actions';
+
+import StreamCreateEditForm from './StreamCreateEditForm';
 // import { Redirect } from 'react-router-dom';
 // import { browserHistory } from 'react-router';
 
@@ -34,34 +36,34 @@ const validate = (formValues) => {
 }
 
 
-const renderInput = (formProps) => {
+// const renderInput = (formProps) => {
     
-    const renderError = ({error, touched}) => {
-        if (error && touched) {
-            return (
-                <div className="ui error message" style={{display: 'block'}}>
-                    <div className="header">{error}</div>
-                </div>
-            )
-        }
-    }
-    const {input, label, type, meta} = formProps;
-    const className = meta.invalid && meta.touched ? 'field error' : 'field';
-    return (
-        <div className={className}>
-            <label>{label}</label>
-            <input {...input} type={type} autoComplete="off"
+//     const renderError = ({error, touched}) => {
+//         if (error && touched) {
+//             return (
+//                 <div className="ui error message" style={{display: 'block'}}>
+//                     <div className="header">{error}</div>
+//                 </div>
+//             )
+//         }
+//     }
+//     const {input, label, type, meta} = formProps;
+//     const className = meta.invalid && meta.touched ? 'field error' : 'field';
+//     return (
+//         <div className={className}>
+//             <label>{label}</label>
+//             <input {...input} type={type} autoComplete="off"
 
-            />
-            {/* {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))} */}
-            {/* {touched && error && <div >{error}</div>} */}
-            {/* <div>{meta.touched ? meta.error : null}</div> */}
-            {renderError(meta)}
-            {/* {meta.touched && meta.error && <div className="ui error message" style={{display: 'block'}}><span className="header">{meta.error}</span> </div>} */}
-            {/* {meta.touched && meta.error && <div className="ui error message" style={{display: 'block'}}>{meta.error} </div>} */}
-        </div>
-    )
-}
+//             />
+//             {/* {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))} */}
+//             {/* {touched && error && <div >{error}</div>} */}
+//             {/* <div>{meta.touched ? meta.error : null}</div> */}
+//             {renderError(meta)}
+//             {/* {meta.touched && meta.error && <div className="ui error message" style={{display: 'block'}}><span className="header">{meta.error}</span> </div>} */}
+//             {/* {meta.touched && meta.error && <div className="ui error message" style={{display: 'block'}}>{meta.error} </div>} */}
+//         </div>
+//     )
+// }
 
 const StreamCreate = (props) => {
     
@@ -78,13 +80,13 @@ const StreamCreate = (props) => {
     }
     
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="ui form">
-            <Field name="title" type="text" component={renderInput} label="Enter input" />
-            <Field name="description" type="text" component={renderInput} label="Enter description"/>
-            <button className="ui button" type="submit" >Submit</button>   {/* default type is submit if you dont specify it.  */}
-            <button className="ui button" type="button">Just Click</button>
-            <button className="ui button" type="reset">Reset</button>
-        </form>
+        <StreamCreateEditForm onSubmit={onSubmit} handleSubmit={handleSubmit} history={props.history}/>
+        // <form onSubmit={handleSubmit(onSubmit)} className="ui form">
+        //     <Field name="title" type="text" component={renderInput} label="Enter input" />
+        //     <Field name="description" type="text" component={renderInput} label="Enter description"/>
+        //     <button className="ui button" type="submit" >Submit</button>   {/* default type is submit if you dont specify it.  */}
+        //     <button className="ui button" type="button" onClick={() => props.history.push('/')}>Back to List</button>
+        // </form>
     )
 }
 

@@ -1,76 +1,74 @@
 import React, { useCallback } from 'react';
-import { useState } from 'react';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { signIn, signOut } from '../redux/actions';
 
-class GoogleAuth extends React.Component {
+// class GoogleAuth extends React.Component {
 
-    // state = {isSignedIn: null};
+//     // state = {isSignedIn: null};
 
-    componentDidMount() {
+//     componentDidMount() {
         
-        window.gapi.load('client:auth2', () => {
-            window.gapi.client.init({
-                clientId: '1018683604898-e3909j88llkc3ml68llvvtfk6ul7u4o6.apps.googleusercontent.com',
-                scope: 'email'
-            }).then(() => {
-                this.auth = window.gapi.auth2.getAuthInstance();
-                // this.setState({isSignedIn: this.auth.isSignedIn.get()})
-                this.onAuthChange(this.auth.isSignedIn.get());
-                // this.auth.isSignedIn.listen(this.onAuthChange)
-                // this.auth.isSignedIn.listen(() => this.setState({ isSignedIn: this.auth.isSignedIn.get() }))
-                // this.auth.isSignedIn.listen(isSignedIn => this.setState({isSignedIn}))
-                this.auth.isSignedIn.listen(this.onAuthChange)
-            })
-        })
-    }
+//         window.gapi.load('client:auth2', () => {
+//             window.gapi.client.init({
+//                 clientId: '1018683604898-e3909j88llkc3ml68llvvtfk6ul7u4o6.apps.googleusercontent.com',
+//                 scope: 'email'
+//             }).then(() => {
+//                 this.auth = window.gapi.auth2.getAuthInstance();
+//                 // this.setState({isSignedIn: this.auth.isSignedIn.get()})
+//                 this.onAuthChange(this.auth.isSignedIn.get());
+//                 // this.auth.isSignedIn.listen(this.onAuthChange)
+//                 // this.auth.isSignedIn.listen(() => this.setState({ isSignedIn: this.auth.isSignedIn.get() }))
+//                 // this.auth.isSignedIn.listen(isSignedIn => this.setState({isSignedIn}))
+//                 this.auth.isSignedIn.listen(this.onAuthChange)
+//             })
+//         })
+//     }
 
-    onAuthChange = (isSignedIn) => {
-        // console.log(this.auth.isSignedIn.get())
-        // this.setState({isSignedIn: this.auth.isSignedIn.get()})
-        if (isSignedIn) {
-            this.props.signIn(this.auth.currentUsnodeer.get().getId());
-        } else {
-            this.props.signOut();
-        }
-    }
+//     onAuthChange = (isSignedIn) => {
+//         // this.setState({isSignedIn: this.auth.isSignedIn.get()})
+//         if (isSignedIn) {
+//             this.props.signIn(this.auth.currentUsnodeer.get().getId());
+//         } else {
+//             this.props.signOut();
+//         }
+//     }
 
-    renderAutoButton() {
-        if (this.props.isSignedIn === null) {
-        // if (this.state.isSignedIn === null) {
-            return null;
-        } else if (this.props.isSignedIn) {
-        // } else if (this.state.isSignedIn) {y
-            return (
-                // <button className="ui red google button" onClick={() => this.setState({ isSignedIn: })}>
-                <button className="ui red google button" onClick={() => this.auth.signOut()}>
-                    <i className="google icon"></i>
-                    Sign Out
-                </button>
-            )
-        } else {
-            return (
-                <button className="ui green google button" onClick={() => this.auth.signIn()}>
-                    <i className="google icon"></i>
-                    Sign In with Google
-                </button>
-            )
-        }
-    }
+//     renderAutoButton() {
+//         if (this.props.isSignedIn === null) {
+//         // if (this.state.isSignedIn === null) {
+//             return null;
+//         } else if (this.props.isSignedIn) {
+//         // } else if (this.state.isSignedIn) {y
+//             return (
+//                 // <button className="ui red google button" onClick={() => this.setState({ isSignedIn: })}>
+//                 <button className="ui red google button" onClick={() => this.auth.signOut()}>
+//                     <i className="google icon"></i>
+//                     Sign Out
+//                 </button>
+//             )
+//         } else {
+//             return (
+//                 <button className="ui green google button" onClick={() => this.auth.signIn()}>
+//                     <i className="google icon"></i>
+//                     Sign In with Google
+//                 </button>
+//             )
+//         }
+//     }
 
-    render() {
+//     render() {
         
-        return (
-            <div>
-                {this.renderAutoButton()}
-            </div>
-        )
-    }
+//         return (
+//             <div>
+//                 {this.renderAutoButton()}
+//             </div>
+//         )
+//     }
 
-}
+// }
 
 const GoogleAuthFunc = (props) => {
     
@@ -81,9 +79,8 @@ const GoogleAuthFunc = (props) => {
     
     const onAuthChange = useCallback(
         isSignedIn => {
-            
             if (isSignedIn) {
-                signIn(auth?.currentUser.get().getId());
+                signIn(auth.current.currentUser.get().getId());
             } else {
                 signOut();
             }
@@ -97,24 +94,20 @@ const GoogleAuthFunc = (props) => {
                 clientId: '1018683604898-e3909j88llkc3ml68llvvtfk6ul7u4o6.apps.googleusercontent.com',
                 scope: 'email'
             }).then(() => {
-                auth = window.gapi.auth2.getAuthInstance();
+                auth.current = window.gapi.auth2.getAuthInstance();
                 
-                // setAuth(auth);
-                // auth.current = Oauth;
-                onAuthChange(auth.isSignedIn.get()); 
-                auth.isSignedIn.listen(onAuthChange);
+                onAuthChange(auth.current.isSignedIn.get()); 
+                auth.current.isSignedIn.listen(onAuthChange);
             })
         });
     }, [onAuthChange])
 
     const onSignInClink = () => {
-        auth.signIn();
-        // onAuthChange(true);
-        // auth.isSignedIn.listen(isSignedIn => onAuthChange(isSignedIn));
+        auth.current.signIn();
     }
 
     const onSignOutClick = () => {
-        auth.signOut();  
+        auth.current.signOut();  
         // auth.isSignedIn.listen(isSignedIn => onAuthChange(isSignedIn));
     }
 
@@ -140,7 +133,6 @@ const GoogleAuthFunc = (props) => {
 }
 
 const mapStateToProps = (state) => {
-    // console.log(state)
     return { isSignedIn: state.auth.isSignedIn }
 }
 

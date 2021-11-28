@@ -2,35 +2,33 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fetchStreams, deleteStream, editStream, fetchStream } from '../../redux/actions/index'
 import { Link } from 'react-router-dom';
+import history from '../../history';
 
 
 class StreamList extends React.Component {
-    
     componentDidMount() {
         this.props.fetchStreams();
     }
 
     editSelectedStream = (streamId) => { // BIR COMPONENTAN in func nin icinde baska bir func gectiginde bunu arrow funct yapman lazim yoksa alamiyor
-        console.log(streamId);
         this.props.fetchStream(streamId)
         this.props.history.push("/streams/edit/"+ streamId);
     }
 
     renderAdmin(stream) {
         if (stream.userId === this.props.currentUserId) {
+            
             return (
                 <div className="right floated content">
                     <button className="ui button primary" onClick={() => this.editSelectedStream(stream.id)}>
                         Edit
                     </button>
-                    <button className="ui button negative" onClick={() => {
-                        // eslint-disable-next-line no-restricted-globals
-                        const checkDelete = confirm('Do you want to delete this stream?');
-                        if (checkDelete) this.props.deleteStream(stream.id);
-                        }
-                    }>
+                    {/* <button className="ui button negative" onClick={() => this.props.history.push('/streams/delete/'+stream.id)}>
                         Delete
-                    </button>
+                    </button> */}
+                    <Link to={`/streams/delete/${stream.id}`} className="ui button negative"> 
+                        Delete
+                    </Link>
                 </div>
             )
         }
@@ -72,18 +70,18 @@ class StreamList extends React.Component {
                     {this.renderList()}
                 </div>
                 {this.renderCreate()}
+                <button onClick={() => history.push("/streams/new")}>bas</button>
             </div>
         )
     }
 }
 
 const mapStateToProps = (state) => {
-    // console.log(state)
+    // (state)
     return { 
         streams: Object.values(state.streams),
         currentUserId: state.auth.userId, 
         isSignedIn: state.auth.isSignedIn,
-        // streamIndex: 
     };
 }
 

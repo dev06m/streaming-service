@@ -8,7 +8,8 @@ import {
         DELETE_STREAM,
         EDIT_STREAM
     } from "./types";
-import createBrowserHistory from "../../history";
+// import createBrowserHistory from "../../history";
+// import { useHistory } from "react-router-dom";
 
 export const signIn = (userId) => {
     return {
@@ -42,17 +43,18 @@ export const fetchStream = streamId => async dispatch => {
 
 export const editStream = (streamId, formValues) => async dispatch => {
     const response = await streams.put('/streams/' + streamId, formValues);
-    console.log(response)
     dispatch({type: EDIT_STREAM, payload: response.data});
     return response;
 }
 
 export const deleteStream = streamId => async dispatch => {
+    // let history = useHistory();
     await streams.delete('/streams/' + streamId);
     dispatch({type: DELETE_STREAM, payload: streamId });
-    createBrowserHistory.push('/')
+    // history.push('/')
 }
 
-export const selectStreamToEdit = (streamId) => async dispatch => {
-    await streams.get('/streams/' + streamId);
+export const fetchInitialValues = (streamId) => async dispatch => {
+    const response = await streams.get('/streams/' + streamId);
+    dispatch({type: 'FETCH_INITIAL_VALUES', payload: response.data})
 }

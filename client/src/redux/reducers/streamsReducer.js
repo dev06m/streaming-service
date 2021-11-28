@@ -5,8 +5,6 @@ import  * as types from '../actions/types';
 export default (state={}, action) => {
     switch (action.type) {
         case types.FETCH_STREAMS:
-            // if (action)
-            console.log(action)
             return  {
                 ...state,
                 ...action.payload.reduce((newState, stream) => {
@@ -14,8 +12,7 @@ export default (state={}, action) => {
                 return newState
             }, {}) }
         case types.FETCH_STREAM:
-            console.log('yes')
-            return {...state, [action.payload.id]: action.payload};
+            return { [action.payload.id]: action.payload };
         case types.CREATE_STREAM:
             return {...state, [action.payload.id]: action.payload};
         case types.EDIT_STREAM:
