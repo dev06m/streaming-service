@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Field, reduxForm }  from 'redux-form';
+import React, { useEffect } from 'react';
+import { reduxForm }  from 'redux-form';
 import {connect} from 'react-redux';
 import { editStream, fetchInitialValues, fetchStreams } from '../../redux/actions';
 import StreamCreateEditForm from './StreamCreateEditForm';
